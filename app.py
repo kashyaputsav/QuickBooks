@@ -57,7 +57,7 @@ def index():
         prediction = label_encoder.inverse_transform([pred_idx])[0]
         confidence = round(float(np.max(probs) * 100), 2)
 
-        if confidence < 60:
+        if confidence < 61:
             needs_review = True
 
     return render_template(
