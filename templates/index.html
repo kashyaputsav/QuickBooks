@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Intelligent Expense Categorizer</title>
+    <style>
+        /* --- Body --- */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(120deg, #cce7ff, #99d6ff);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+
+        /* --- Card --- */
+        .card {
+            width: 700px;
+            background: linear-gradient(145deg, #ffffff, #d4f0ff);
+            padding: 50px 50px;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+            transition: transform 0.4s ease, box-shadow 0.4s ease;
+        }
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.25);
+        }
+
+        h2 {
+            text-align: center;
+            color: #0077cc;
+            margin-bottom: 35px;
+            font-size: 32px;
+            animation: fadeIn 1s ease-in;
+        }
+
+        /* --- Form Inputs --- */
+        input, button {
+            width: 100%;
+            padding: 18px 15px;
+            margin-top: 15px;
+            border-radius: 12px;
+            border: 1px solid #a0cfff;
+            font-size: 20px;
+            transition: all 0.4s ease;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #0099ff;
+            box-shadow: 0 0 8px rgba(0, 153, 255, 0.5);
+        }
+
+        /* --- Button --- */
+        button {
+            background: linear-gradient(135deg, #00bfff, #0099ff);
+            color: white;
+            font-weight: bold;
+            font-size: 20px;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        button:hover {
+            background: linear-gradient(135deg, #0099ff, #0077cc);
+            transform: scale(1.08) translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+        }
+
+        /* --- Result Box --- */
+        .result {
+            margin-top: 30px;
+            padding: 25px;
+            border-radius: 15px;
+            background: linear-gradient(120deg, #e0f4ff, #b3e0ff);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+            animation: popIn 0.6s ease-out;
+        }
+
+        .result p {
+            font-size: 20px;
+            margin: 10px 0;
+        }
+
+        .warning {
+            color: #d8000c;
+            font-weight: bold;
+            font-size: 20px;
+        }
+
+        /* --- Animations --- */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-25px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes popIn {
+            0% { opacity: 0; transform: scale(0.7); }
+            60% { opacity: 1; transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        /* --- Placeholder Colors --- */
+        ::placeholder {
+            color: #666666;
+        }
+    </style>
+</head>
+<body>
+
+<div class="card">
+    <h2>QuickBooks-Style Expense Categorization</h2>
+
+    <form method="POST">
+        <input type="text" name="merchant" placeholder="Merchant Name" required>
+        <input type="text" name="description" placeholder="Description" required>
+        <input type="number" step="0.01" name="amount" placeholder="Amount" required>
+        <input type="date" name="date" required>
+        <button type="submit">Predict Category</button>
+    </form>
+
+    {% if prediction %}
+    <div class="result">
+        <p><strong>Predicted Category:</strong> {{ prediction }}</p>
+        <p><strong>Confidence:</strong> {{ confidence }}%</p>
+
+        {% if needs_review %}
+            <p class="warning">⚠ Needs Manual Review</p>
+        {% else %}
+            <p>✅ High Confidence Prediction</p>
+        {% endif %}
+    </div>
+    {% endif %}
+</div>
+
+</body>
+</html>
+
